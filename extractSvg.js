@@ -6,7 +6,7 @@ var curStrSvg = "";
 var serializer = new XMLSerializer();
 
 // later change to input frame rate
-frameRate = 1000/20;
+frameRate = 1000/10;
 var runExtractor = window.setInterval(getSVG, frameRate);
 console.log("runExtractor " + runExtractor);
 
@@ -20,10 +20,13 @@ function isNumberKey(evt){
 function getSVG() {
 	countGetSvg++;
 	
-	var svgList = document.querySelectorAll("svg");
+	var svgList = document.getElementsByTagName("svg");
 	
 	if (svgList.length > 0){
 		var newSvg = svgList[0];
+		newSvg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+		newSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
 		var newSvgStr = serializer.serializeToString(newSvg);
 
 		extractedSvgs[countSvg] = newSvgStr;
@@ -42,7 +45,7 @@ function stopExtraction() {
 	var allSvgsStr = extractedSvgs.join('|');
 	
 	$.post("getsvgs.php", allSvgsStr, function( data ) {
-		$("body").append("<a href=" + data + ">Download</a>");
+		$("<div style='margin-bottom: 30px;'><a  href=" + data + ">Download SVGs</a></div>").insertAfter("h1");
 	});
 }
 
@@ -99,7 +102,7 @@ function loadFile() {
 			console.error("Parsing error:", e); 
 		}
 		
-		document.body.insertBefore(swiffyDiv, document.body.firstChild)			
+		document.body.appendChild(swiffyDiv);
         //document.body.appendChild(swiffyDiv);
 		setTimeout(startAnimation, 1000);	
     }

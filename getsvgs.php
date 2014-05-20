@@ -7,10 +7,11 @@ $svgs = explode('|', $postdata);
 $svgFiles = array();
 
 for ($i = 0; $i < count($svgs); $i++) {
+
 	$xml = new DOMDocument();
 	$xml->loadXML($svgs[$i]);
 
-	$svgFiles[$i] = 'svgs/test' . ($i + 1)  . '.svg';
+	$svgFiles[$i] = 'svgs/svgframe' . ($i + 1)  . '.svg';
 
 	$xml->save($svgFiles[$i]);
 }
@@ -19,7 +20,7 @@ $result = create_zip($svgFiles,'svgFiles.zip');
 
 echo 'svgFiles.zip';
 
-function create_zip($files = array(),$destination = '',$overwrite = false) {
+function create_zip($files = array(),$destination = '',$overwrite = true) {
 	//if the zip file already exists and overwrite is false, return false
 	if(file_exists($destination) && !$overwrite) { return false; }
 	//vars
@@ -59,3 +60,10 @@ function create_zip($files = array(),$destination = '',$overwrite = false) {
 		return false;
 	}
 }
+
+function cleanData() {
+	// Maybe there should be a cleaning function but at the moment all files are overwritten and
+	// the zip only takes the files array.. so no need.
+}
+
+?>

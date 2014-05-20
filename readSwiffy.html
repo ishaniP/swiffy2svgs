@@ -16,7 +16,7 @@ body {
 </head>
 <body style="margin: 0; overflow: hidden">
 	<div style="margin: 30px 5px; padding: 10px; border: 2px dashed lightblue; width: 500px;">
-		<h1 style="margin-bottom: 70px;">Swiffy to SVG v1.0</h1>
+		<h1 style="margin-bottom: 70px; margin-right: 20px;">Swiffy to SVG v1.0</h1>
 
 		<form action='#' onsubmit="return false;">
 		<input type='file' id='swiffyFile'>
@@ -24,7 +24,9 @@ body {
 		<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
 
 		</form>
-
+		
+		<div id="swiffyHolder">
+		</div>
 	</div>
 </body>
 </html>
