@@ -11,10 +11,10 @@ var runExtractor = window.setInterval(getSVG, frameRate);
 console.log("runExtractor " + runExtractor);
 
 function isNumberKey(evt){
-    var charCode = (evt.which) ? evt.which : event.keyCode
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-        return false;
-    return true;
+  var charCode = (evt.which) ? evt.which : event.keyCode
+  if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+  return true;
 }
 
 function getSVG() {
@@ -54,75 +54,72 @@ var swiffyobject= {};
 var stage;
 
 function loadFile() {
-    var input, file, fr, swiffyDiv;
+  var input, file, fr, swiffyDiv;
 
-    if (typeof window.FileReader !== 'function') {
-        write("The file API isn't supported on this browser yet.");
-        return;
-    }
+  if (typeof window.FileReader !== 'function') {
+    write("The file API isn't supported on this browser yet.");
+    return;
+  }
 
-    input = document.getElementById('swiffyFile');
-    if (!input) {
-        write("Hum, couldn't find the swiffyFile element.");
-    }
-    else if (!input.files) {
-        write("This browser doesn't seem to support the `files` property of file inputs.");
-    }
-    else if (!input.files[0]) {
-        write("Please select a file before clicking 'Load'");
-    }
-    else {
-        file = input.files[0];
-        fr = new FileReader();
-        fr.onload = createSwiffy;
-        fr.readAsText(file);
-    }
+  input = document.getElementById('swiffyFile');
+  if (!input) {
+    write("Hum, couldn't find the swiffyFile element.");
+  }
+  else if (!input.files) {
+    write("This browser doesn't seem to support the `files` property of file inputs.");
+  }
+  else if (!input.files[0]) {
+  	write("Please select a file before clicking 'Load'");
+  }
+  else {
+    file = input.files[0];
+    fr = new FileReader();
+    fr.onload = createSwiffy;
+    fr.readAsText(file);
+  }
 
-    function createSwiffy() {
-        swiffyDiv = document.createElement('div');
+  function createSwiffy() {
+    swiffyDiv = document.createElement('div');
 		swiffyDiv.id = 'swiffycontainer';
-        //swiffy.onload = startAnimation;
-        swiffyDiv.style.width = "468px"; // get from file
-		swiffyDiv.style.height = "60px"; // get from file
+    //swiffy.onload = startAnimation;
+
+    var parser = new DOMParser();
+		var doc = parser.parseFromString(fr.result, "text/html");
+		var width = doc.getElementById("swiffycontainer").style.width;
+		var height = doc.getElementById("swiffycontainer").style.height;
+
+    swiffyDiv.style.width = width;
+		swiffyDiv.style.height = height;
+		
 		var re = /swiffyobject = .*?;/;
 		var inputObjStr = re.exec(fr.result);
-		//console.log('REGEX : ' + testRe[0].substring(15));
-		
-		// var outStr = JSON.stringify(testRe[0].substring(15));
-		// console.log('STRINGIFY : ' + outStr);
 		
 		try {
-		swiffyobject = eval("(function(){return " + inputObjStr + ";})()");
-		//JSON.parse(outStr);
-		
-		console.log(swiffyobject.internedStrings);
-		
-		console.log('JSON : ' + swiffyobject);
+			swiffyobject = eval("(function(){return " + inputObjStr + ";})()");
+			
+			console.log('swiffyobject: ');
+			console.log(swiffyobject);
 		} catch (e) {
 			console.error("Parsing error:", e); 
 		}
-		
+
 		document.body.appendChild(swiffyDiv);
 		setTimeout(startAnimation, 1000);	
-    }
+	}
 
-    function startAnimation() {	
+  function startAnimation() {	
 		console.log('Before animation'); 
-		
+	
 		stage = new swiffy.Stage(document.getElementById('swiffycontainer'),swiffyobject);		
-		console.log('After');
 		stage.start();
-		
-		
-		
-		console.log('animation started');
-		
+		console.log('Animation started');
+	
 		setTimeout(stopExtraction, 3000);
-    }
+  }
 
-    function write(msg) {
-        var p = document.createElement('p');
-        p.innerHTML = msg;
-        document.body.appendChild(p);
-    }
+  function write(msg) {
+    var p = document.createElement('p');
+    p.innerHTML = msg;
+    document.body.appendChild(p);
+  }
 }
