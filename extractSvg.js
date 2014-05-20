@@ -5,11 +5,6 @@ var countGetSvg = 0;
 var curStrSvg = "";
 var serializer = new XMLSerializer();
 
-// later change to input frame rate
-frameRate = 1000/10;
-var runExtractor = window.setInterval(getSVG, frameRate);
-console.log("runExtractor " + runExtractor);
-
 function isNumberKey(evt){
   var charCode = (evt.which) ? evt.which : event.keyCode
   if (charCode > 31 && (charCode < 48 || charCode > 57))
@@ -38,20 +33,10 @@ function getSVG() {
 	}
 }
 
-function stopExtraction() {
-	clearInterval(runExtractor);
-	console.log('countSvg ' + countSvg);
-	
-	var allSvgsStr = extractedSvgs.join('|');
-	
-	$.post("getsvgs.php", allSvgsStr, function( data ) {
-		$("<div style='margin-bottom: 30px;'><a  href=" + data + ">Download SVGs</a></div>").insertAfter("h1");
-	});
-}
-
 // Swiffy Object Loading
 var swiffyobject= {};
 var stage;
+var runExtractor = 0;
 
 function loadFile() {
   var input, file, fr, swiffyDiv;
@@ -109,17 +94,35 @@ function loadFile() {
 
   function startAnimation() {	
 		console.log('Before animation'); 
-	
+		// later change to input frame rate
+		var frameRate = document.getElementById("framerate").value;
+		runExtractor = window.setInterval(getSVG, 1000 / frameRate);
+		console.log("runExtractor " + runExtractor);
+
+
 		stage = new swiffy.Stage(document.getElementById('swiffycontainer'),swiffyobject);		
 		stage.start();
 		console.log('Animation started');
-	
-		setTimeout(stopExtraction, 3000);
   }
 
   function write(msg) {
     var p = document.createElement('p');
     p.innerHTML = msg;
-    document.body.appendChild(p);
+    document.getElementById("controls").appendChild(p);
   }
+}
+
+function stopExtraction() {
+	clearInterval(runExtractor);
+	
+	var allSvgsStr = extractedSvgs.join('|');
+	
+	getZipFile(allSvgsStr);
+}
+
+function getZipFile(svgsStr) {
+	$.post("getsvgs.php", svgsStr, function( data ) {
+		$("<div id='download'><a href=" 
+			+ data + ">Download SVGs</a></div>").insertAfter("#controls");
+	});
 }

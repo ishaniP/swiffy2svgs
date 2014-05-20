@@ -1,7 +1,9 @@
 # Swiffy2SVG #
 
-## Missing Features: ##
+Usage:
 
-* Stop button instead of timeout;
-* Width and Height of swiffy container;
-* auto refresh in the end?
+* Upload a swiffy html file.
+* Select a frame rate (the higher the more svgs you will get).
+* Start! .. and Stop! as soon as the animation is over.
+* Download your svgs.
+* Please refresh the page for another go. Cheers!

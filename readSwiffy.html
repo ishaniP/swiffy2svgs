@@ -3,30 +3,41 @@
 <head>
 	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 	<title>Swiffy to SVGs</title>
-	<style type='text/css'>
-		body {
-		  font-family: sans-serif;
-			width: 100%; 
-			height: 100%;
-		}
-	</style>
 	<script src="https://www.gstatic.com/swiffy/v5.2/runtime.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script src="extractSvg.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body style="margin: 0; margin-left: 100px; overflow: hidden">
-	<div style="margin: 30px 5px; padding: 10px; border: 2px dashed lightblue; width: 500px;">
-		<h1 style="margin-bottom: 70px; margin-right: 20px;">Swiffy to SVG v1.0</h1>
-
+	<div style="margin: 30px 5px; padding: 10px 20px; border: 2px dashed lightblue; width: 500px;">
+		<h1 style="margin-bottom: 30px; margin-right: 20px;">Swiffy2SVGs v1.0</h1>
+		<p>Usage:</p>
+		<ol>
+			<li>Upload a swiffy html file.</li>
+			<li>Select a frame rate (the higher the more svgs you will get).</li>
+			<li>Start! .. and Stop! as soon as the animation is over.</li>
+			<li>Download your svgs.</li>
+			<li>Please refresh the page for another go. Cheers!</li>
+		</ol>
 		<form action='#' onsubmit="return false;">
 		
-			<input type='file' id='swiffyFile'>
+			<span class="btn btn-default btn-file">
+				Browse for File <input type="file" id='swiffyFile'>
+			</span>
 
-			<label>Frame rate:
-				<input type="number" name="framerate" value="20" onkeypress="return isNumberKey(event)"/>
-			</label>
+			<div style="display:block; margin-top:10px;">
+				<label>Frame rate:
+					<input type="number" id="framerate" class="form-control" value="20" style="width:65px;" onkeypress="return isNumberKey(event)"/>
+				</label>
+			</div>
 			
-			<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+			<div id="controls" style="display:block; margin: 15px 0  10px 160px;">
+				<input type='button' id='btnLoad' value='Start!' class="btn btn-success" onclick='loadFile();'>
+
+				<input type='button' id='btnLoad' value='Stop!' class="btn btn-danger" onclick='stopExtraction();'>
+			</div>
 
 		</form>
 		

@@ -1,0 +1,35 @@
+body {
+  font-family: sans-serif;
+	width: 100%; 
+	height: 100%;
+}
+h1 {
+	color: #5CCDC9;
+	font-size: 38px;
+}
+ol {
+	margin-bottom: 40px;
+}
+#download {
+	font-size: 150%;
+	margin-left: 150px;
+}
+.btn-file {
+position: relative;
+overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 999px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
