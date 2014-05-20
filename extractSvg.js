@@ -63,7 +63,7 @@ function loadFile() {
 
     input = document.getElementById('swiffyFile');
     if (!input) {
-        write("Um, couldn't find the swiffyFile element.");
+        write("Hum, couldn't find the swiffyFile element.");
     }
     else if (!input.files) {
         write("This browser doesn't seem to support the `files` property of file inputs.");
@@ -103,7 +103,6 @@ function loadFile() {
 		}
 		
 		document.body.appendChild(swiffyDiv);
-        //document.body.appendChild(swiffyDiv);
 		setTimeout(startAnimation, 1000);	
     }
 
