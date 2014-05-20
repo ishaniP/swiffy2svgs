@@ -1,11 +1,14 @@
-var svgs = new Array();
+var extractedSvgs = new Array();
 var curSvg = 0;
 var countSvg = 0;
+var countGetSvg = 0;
 var curStrSvg = "";
 var serializer = new XMLSerializer();
 
 // later change to input frame rate
-var runScript = window.setInterval(getSVG, 1000/20);
+frameRate = 1000/20;
+var runExtractor = window.setInterval(getSVG, frameRate);
+console.log("runExtractor " + runExtractor);
 
 function isNumberKey(evt){
     var charCode = (evt.which) ? evt.which : event.keyCode
@@ -15,71 +18,35 @@ function isNumberKey(evt){
 }
 
 function getSVG() {
+	countGetSvg++;
+	console.log("countGetSvg " + countGetSvg);
+	
 	var svgList = document.querySelectorAll("svg");
 	
 	if (svgList.length > 0){
 		var newSvg = svgList[0];
+		var newSvgStr = serializer.serializeToString(newSvg);
 
-
-
-		var newStrSvg = serializer.serializeToString(newSvg);
-
-		svgs[countSvg] = newStrSvg;
-		//console.log('Svg'+countSvg+' : ' +svgs[countSvg]);
-		//console.log('svgslist: ' + svgList.length);
-		//console.log('svgs: ' + svgs.length);
-		
+		extractedSvgs[countSvg] = newSvgStr;
 		countSvg++;
-	}
-	
-	/*
-	// Comparison doesnt work because every svg is different, so better to work on a fps basis.
-	if (svgList.length > 0) {
 		
-		var newSvg = svgList[0];
-		
-		if (countSvg === 0) {
-			curSvg = newSvg;				
-			curStrSvg = serializer.serializeToString(curSvg);
-			countSvg++;
-		}
-		else {	
-			var newStrSvg = serializer.serializeToString(newSvg);
-		
-			//console.log(curStrSvg);
-			//console.log('vs');
-			//console.log(newStrSvg);
-			
-			var test = curStrSvg.localeCompare(newStrSvg);
-			console.log('test :' + test);
-			if (test) {
-				console.log('New SVG found');
-				curSvg = newSvg;
-				countSvg++;
-			}	
-		}		
+		//console.log('Svg'+countSvg+' : ' +extractedSvgs[countSvg]);
+		//console.log('svgslist: ' + svgList.length);
+		//console.log('extractedSvgs: ' + extractedSvgs.length);
 	}
-	
-	// debugger
-	
-	if (svgList.length > 1) {
-		console.log('test2');
-	}
-	*/
 }
 
 function stopExtraction() {
-	clearInterval(runScript);
+	clearInterval(runExtractor);
 	console.log('countSvg ' + countSvg);
 	
-	var svgsStr = svgs.join('|');
-	$.post("getsvgs.php", svgsStr, function( data ) {
-		$( "body" ).append( "<a href=" + data + ">Download</a>" );
+	var allSvgsStr = extractedSvgs.join('|');
+	$.post("getsvgs.php", allSvgsStr, function( data ) {
+		$("body").append("<a href=" + data + ">Download</a>");
 	});
 }
 
 // Swiffy Object Loading
-
 var swiffyobject= {};
 var stage;
 
