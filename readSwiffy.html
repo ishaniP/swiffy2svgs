@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<title>Swiffy to SVGs</title>
+<style type='text/css'>
+body {
+    font-family: sans-serif;
+	width: 100%; 
+	height: 100%;
+}
+</style>
+<script src="https://www.gstatic.com/swiffy/v5.2/runtime.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="extractSvg.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden">
+	<div style="margin: 30px 5px; padding: 10px; border: 2px dashed lightblue; width: 500px;">
+		<h1 style="margin-bottom: 70px;">Swiffy to SVG v1.0</h1>
+
+		<form action='#' onsubmit="return false;">
+		<input type='file' id='swiffyFile'>
+		<input type="number" name="someid" onkeypress="return isNumberKey(event)" />
+		<input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+
+		</form>
+
+	</div>
+</body>
+</html>
