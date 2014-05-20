@@ -10,7 +10,7 @@ for ($i = 0; $i < count($svgs); $i++) {
 	$xml = new DOMDocument();
 	$xml->loadXML($svgs[$i]);
 
-	$svgFiles[$i] = 'svgs/test' . ($i + 1)  . '.xml';
+	$svgFiles[$i] = 'svgs/test' . ($i + 1)  . '.svg';
 
 	$xml->save($svgFiles[$i]);
 }

@@ -19,7 +19,6 @@ function isNumberKey(evt){
 
 function getSVG() {
 	countGetSvg++;
-	console.log("countGetSvg " + countGetSvg);
 	
 	var svgList = document.querySelectorAll("svg");
 	
@@ -41,6 +40,7 @@ function stopExtraction() {
 	console.log('countSvg ' + countSvg);
 	
 	var allSvgsStr = extractedSvgs.join('|');
+	
 	$.post("getsvgs.php", allSvgsStr, function( data ) {
 		$("body").append("<a href=" + data + ">Download</a>");
 	});
